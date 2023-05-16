@@ -3060,6 +3060,27 @@ EmoteList.prototype.loadPage = function (page) {
     }
 
     this.page = page;
+    // Insert Custom Emotes in to emote popup
+    var emotewindow = $("#emotewindow");
+    emotewindow.html("");
+    if (window.EMOTELIST.emotes.length > 0) {
+        var emotes = window.EMOTELIST.emotes;
+        var $customsection = $("<div/>")
+                .attr("id", "emotetype")
+                .html("<span>CUSTOM EMOTES</span>");
+        emotewindow.append($customsection);
+
+        $.each(emotes, function(index, value) {
+            var $customemote = $("<div/>")
+                .attr("id", "emoteitem");
+            var $emoteimg = $("<img/>")
+                .attr("id", "emoteimg")
+                .attr("src", value.image)
+                .on("click", function() { onEmoteClick(value); });
+            $customemote.append($emoteimg);
+            emotewindow.append($customemote);
+        });
+    }
 };
 
 function onEmoteClicked(emote) {
@@ -3074,6 +3095,48 @@ function onEmoteClicked(emote) {
     }
 
     window.EMOTELISTMODAL.modal("hide");
+    chatline.focus();
+}
+
+// Popup emotes version (no modals)
+
+function toggleShowHide(element) {
+    element = $(element);
+    if (element.css("display") == "none") {
+        element.css("display", "block");
+    } else {
+        element.css("display", "none");
+    }
+}
+
+$(document).click(function(e) 
+{
+    var container = $("#emotewindow");
+    var initButton = $("#basicemotelistbtn")
+
+    // if the target of the click isn't the container nor a descendant of the container
+    if (!container.is(e.target) && container.has(e.target).length === 0 && !initButton.is(e.target) && initButton.has(e.target).length === 0 ) 
+    {
+        container.hide();
+    }
+});
+
+$("#basicemotelistbtn").on('click', function() {
+    toggleShowHide('#emotewindow');
+});
+
+function onEmoteClick(emote) {
+    var val = chatline.value;
+    if (!val) {
+        chatline.value = emote.name;
+    } else {
+        if (!val.charAt(val.length - 1).match(/\s/)) {
+            chatline.value += " ";
+        }
+        chatline.value += emote.name;
+    }
+
+    $("#emotewindow").hide();
     chatline.focus();
 }
 

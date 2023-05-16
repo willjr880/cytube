@@ -1,46 +1,24 @@
-CyTube
-======
 
-CyTube is a project I started in early 2013 as a hobby project to build my own
-clone of synchtube.com (which shut down in March 2013).
+This is a custom theme for CyTube edited to my personal liking with some functionality changes that others might find useful.
 
-The basic concept is that users register channels where connected viewers can
-watch videos from different video hosts (e.g., YouTube, Twitch) and the playback
-is synchronized for all the viewers in the channel.
+For more information, see the original at https://github.com/calzoneman/sync and consider merging my changes if suitable for you.
 
-Each channel has a playlist where users can queue up videos to play, as well as
-an integrated chatroom for discussion.
+Functional Changes
+* Popup style custom emotes
+* Keep Public Channels listed even when the viewer count is 0
 
-The official server is located at https://cytu.be, but there are other public
-servers hosted for various communities.
+Theme changes
+* Force a default theme (based on slate)
+* Video on left and chat on right by default (similar looking to yt live chat)
+* Fixed video and chat widths (scaled with viewport width)
+* 'Currently Playing' Video title underneath video
+* Viewer count moved to bottom right of video (twitch-like)
+* User list as a dropdown
+* Chat timestamps default to off
+* Every chat message shows username first
+* Chat message background change on hover disabled
+* Remove Layout dropdown from nav bar
+* Options section in nav bar: removed General, Playback and Script Access tabs (uses hardcoded defaults)
+* General layout colourscheme changes
 
-## Installation
-
-The installation guide for server administrators is located [on the
-wiki](https://github.com/calzoneman/sync/wiki/CyTube-3.0-Installation-Guide).
-
-## Contact
-
-**Please check if the
-[FAQ](https://github.com/calzoneman/sync/wiki/Frequently-Asked-Questions)
-answers your question already.**
-
-For bug reports and feature requests, please open a GitHub issue.  To report a
-security vulnerability, or to discuss an issue with https://cytu.be itself
-(unrelated to the code), please send me an email: cyzon@cytu.be
-
-Please be courteous and search through [the open and closed
-issues](https://github.com/calzoneman/sync/issues?utf8=%E2%9C%93&q=is%3Aissue)
-for your request before submitting a new one.
-
-General help with the software and the website is also available on the IRC
-channel at [irc.esper.net#cytube](http://webchat.esper.net/?channels=cytube)
-during US daytime hours.
-
-## License
-
-Original source code in this repository is provided under the MIT license
-(see the LICENSE file for the full text).
-
-Bundled source code, such as third-party CSS and JavaScript libraries, are
-provided under their respective licenses.
+Thanks to m60 for his existing edits and the motivation to do this.

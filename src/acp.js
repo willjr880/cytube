@@ -211,6 +211,9 @@ function handleDeleteChannel(user, data) {
         sv.getChannel(name).users.forEach(function (u) {
             u.kick("Channel shutting down");
         });
+        // Set channel status to empty so that unloadChannel() is called in server.js
+        // This will remove the channel from the Public directory.
+        sv.getChannel(name).emit('empty');
     }
 
     db.channels.drop(name, function (err) {

@@ -69,7 +69,9 @@ class ReferenceCounter {
                         ` (channel: ${this.channelName})`);
                 this.refCount = this.channel.users.length;
             } else {
-                this.channel.emit("empty");
+                // Removed to keep channels showing in Public directory when user count at 0
+                // NOTE: Channel must be accessed at least once to show up in directory.
+                // this.channel.emit("empty");
             }
         }
     }

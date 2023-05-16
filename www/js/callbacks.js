@@ -477,10 +477,11 @@ const Callbacks = {
     /* REGION Chat */
     usercount: function(count) {
         CHANNEL.usercount = count;
-        var text = count + " connected user";
+        var text = count;
+        /*var text = count + " connected user";
         if(count != 1) {
             text += "s";
-        }
+        }*/
         $("#usercount").text(text);
     },
 

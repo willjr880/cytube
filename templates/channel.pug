@@ -4,6 +4,7 @@ html(lang="en")
     include head
     +head()
     link(href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css", rel="stylesheet")
+    link(href="//fonts.googleapis.com/css2?family=Wix+Madefor+Display:wght@500&display=swap", rel="stylesheet")
     link(rel="stylesheet", href="/css/video-js.css")
     link(rel="stylesheet", href="/css/videojs-resolution-switcher.css")
   body
@@ -16,7 +17,8 @@ html(lang="en")
             +navdefaultlinks()
             li: a(href="javascript:void(0)", onclick="javascript:showUserOptions()") Options
             li: a#showchansettings(href="javascript:void(0)", onclick="javascript:showChannelSettings()") Channel Settings
-            li.dropdown
+            //- 
+              li.dropdown
               a.dropdown-toggle(href="#", data-toggle="dropdown") Layout
                 b.caret
               ul.dropdown-menu
@@ -38,38 +40,41 @@ html(lang="en")
             #drinkbar.col-lg-12.col-md-12
               h1#drinkcount
           #main.row
-            #chatwrap.col-lg-5.col-md-5
+            #videowrap.col-lg-9.col-md-9
+              .embed-responsive.embed-responsive-16by9
+                #ytapiplayer.embed-responsive-item
+              p#videowrap-header
+                //- span#resize-video-smaller.glyphicon.glyphicon-minus.pointer(title="Make the video smaller")
+                //- span#resize-video-larger.glyphicon.glyphicon-plus.pointer(title="Make the video larger")
+                span#currenttitle Nothing Playing
+                span#usercount(style="float:right;") Not connected
+                span#usersvg(style="float:right;") <svg type="color-text-accessible-red" width="20px" height="20px" version="1.1" viewBox="0 0 20 20" x="0px" y="0px" id="usericon"><g><path fill-rule="evenodd" d="M5 7a5 5 0 116.192 4.857A2 2 0 0013 13h1a3 3 0 013 3v2h-2v-2a1 1 0 00-1-1h-1a3.99 3.99 0 01-3-1.354A3.99 3.99 0 017 15H6a1 1 0 00-1 1v2H3v-2a3 3 0 013-3h1a2 2 0 001.808-1.143A5.002 5.002 0 015 7zm5 3a3 3 0 110-6 3 3 0 010 6z" clip-rule="evenodd"></path></g></svg>
+            #chatwrap.col-lg-3.col-md-3
               #chatheader
                 i#userlisttoggle.glyphicon.glyphicon-chevron-down.pull-left.pointer(title="Show/Hide Userlist")
-                span#usercount.pointer Not Connected
-                span#modflair.label.label-default.pull-right.pointer Name Color
+                span#pointer
+                span#chattitle Live Chat
+                //- span#modflair.label.label-default.pull-right.pointer Name Color
               #userlist
               #messagebuffer.linewrap
               #btnwrap(style="display: none;")
                 button#basicemotelistbtn.btn.btn-sm.btn-default(disabled) <svg width="20px" height="20px" version="1.1" viewBox="0 0 20 20" x="0px" y="0px" class="emotesvg"><g><path d="M7 11a1 1 0 100-2 1 1 0 000 2zM14 10a1 1 0 11-2 0 1 1 0 012 0zM10 14a2 2 0 002-2H8a2 2 0 002 2z"></path><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-2 0a6 6 0 11-12 0 6 6 0 0112 0z" clip-rule="evenodd"></path></g></svg>
               form(action="javascript:void(0)")
                 input#chatline.form-control(type="text", maxlength=maxMsgLen, style="display: none")
+		#guestlogin.input-group
+		  span.input-group-addon Guest login
+		  input#guestname.form-control(type="text", placeholder="Name")
               #emotewindow(style="display: none;")
-                #guestlogin.input-group
-                  span.input-group-addon Guest login
-                  input#guestname.form-control(type="text", placeholder="Name")
-            #videowrap.col-lg-7.col-md-7
-              p#videowrap-header
-                span#resize-video-smaller.glyphicon.glyphicon-minus.pointer(title="Make the video smaller")
-                span#resize-video-larger.glyphicon.glyphicon-plus.pointer(title="Make the video larger")
-                span#currenttitle Nothing Playing
-              .embed-responsive.embed-responsive-16by9
-                #ytapiplayer.embed-responsive-item
           #controlsrow.row
-            #leftcontrols.col-lg-5.col-md-5
+            //-#leftcontrols.col-lg-3.col-md-3
+            #rightcontrols.col-lg-9.col-md-9
               button#newpollbtn.btn.btn-sm.btn-default New Poll
-              button#emotelistbtn.btn.btn-sm.btn-default Emote List
-            #rightcontrols.col-lg-7.col-md-7
+              //-button#emotelistbtn.btn.btn-sm.btn-default Emote List
               #plcontrol.btn-group
-                button#showmediaurl.btn.btn-sm.btn-default(title="Add video from URL", data-toggle="collapse", data-target="#addfromurl")
-                  span.glyphicon.glyphicon-plus
                 button#showsearch.btn.btn-sm.btn-default(title="Search for a video", data-toggle="collapse", data-target="#searchcontrol")
                   span.glyphicon.glyphicon-search
+                button#showmediaurl.btn.btn-sm.btn-default(title="Add video from URL", data-toggle="collapse", data-target="#addfromurl")
+                  span.glyphicon.glyphicon-plus
                 button#showcustomembed.btn.btn-sm.btn-default(title="Embed a custom frame", data-toggle="collapse", data-target="#customembed")
                   span.glyphicon.glyphicon-th-large
                 button#showplaylistmanager.btn.btn-sm.btn-default(title="Manage playlists", data-toggle="collapse", data-target="#playlistmanager")
@@ -91,12 +96,8 @@ html(lang="en")
                   span.glyphicon.glyphicon-step-forward
 
           #playlistrow.row
-            #leftpane.col-lg-5.col-md-5
+            #leftpane.col-lg-9.col-md-9
               #leftpane-inner.row
-                #pollwrap.col-lg-12.col-md-12
-                #playlistmanagerwrap.col-lg-12.col-md-12
-            #rightpane.col-lg-7.col-md-7
-              #rightpane-inner.row
                 #searchcontrol.collapse.plcontrol-collapse.col-lg-12.col-md-12
                   .vertical-spacer
                   .input-group
@@ -156,6 +157,10 @@ html(lang="en")
                   #plmeta
                     span#plcount 0 items
                     span#pllength 00:00:00
+            #rightpane.col-lg-3.col-md-3
+              #rightpane-inner.row
+                #pollwrap.col-lg-12.col-md-12
+                #playlistmanagerwrap.col-lg-12.col-md-12
           #resizewrap.row
             .col-lg-5.col-md-5
             #videowidth.col-lg-7.col-md-7
@@ -168,18 +173,18 @@ html(lang="en")
             button.close(data-dismiss="modal", aria-hidden="true") &times;
             h4 User Preferences
             ul.nav.nav-tabs
-              li: a(href="#us-general", data-toggle="tab") General
-              li: a(href="#us-playback", data-toggle="tab") Playback
+              <!--li: a(href="#us-general", data-toggle="tab") General -->
+              <!-- li: a(href="#us-playback", data-toggle="tab") Playback -->
               li: a(href="#us-chat", data-toggle="tab") Chat
-              li: a(href="#us-scriptcontrol", data-toggle="tab") Script Access
+              <!-- li: a(href="#us-scriptcontrol", data-toggle="tab") Script Access -->
               li: a(href="#us-mod", data-toggle="tab", style="") Moderator
           .modal-body
             .tab-content
               include useroptions
-              +us-general()
-              +us-playback()
+              //- +us-general() 
+              //- +us-playback()
               +us-chat()
-              +us-scripts()
+              //- +us-scripts()
               +us-mod()
           .modal-footer
             button.btn.btn-primary(type="button", data-dismiss="modal", onclick="javascript:saveUserOptions()") Save

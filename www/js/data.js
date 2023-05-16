@@ -179,7 +179,7 @@ var USEROPTS = {
     qbtn_idontlikechange : getOrDefault("qbtn_idontlikechange", false),
     peertube_risk        : getOrDefault("peertube_risk", false),
     // Chat tab
-    show_timestamps      : getOrDefault("show_timestamps", true),
+    show_timestamps      : getOrDefault("show_timestamps", false),
     sort_rank            : getOrDefault("sort_rank", true),
     sort_afk             : getOrDefault("sort_afk", false),
     blink_title          : getOrDefault("blink_title", "onlyping"),

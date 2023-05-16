@@ -642,6 +642,7 @@ function showUserOptions() {
         $("a[href='#us-mod']").parent().show();
     }
 
+    /* Removed to force defaults for all users
     $("#us-theme").val(USEROPTS.theme);
     $("#us-layout").val(USEROPTS.layout);
     $("#us-no-channelcss").prop("checked", USEROPTS.ignore_channelcss);
@@ -653,7 +654,7 @@ function showUserOptions() {
     $("#us-playlistbuttons").prop("checked", USEROPTS.qbtn_hide);
     $("#us-oldbtns").prop("checked", USEROPTS.qbtn_idontlikechange);
     $("#us-default-quality").val(USEROPTS.default_quality || "auto");
-    $("#us-peertube").prop("checked", USEROPTS.peertube_risk);
+    $("#us-peertube").prop("checked", USEROPTS.peertube_risk);*/
 
     $("#us-chat-timestamp").prop("checked", USEROPTS.show_timestamps);
     $("#us-sort-rank").prop("checked", USEROPTS.sort_rank);
@@ -671,26 +672,26 @@ function showUserOptions() {
     $("#us-show-ip-in-tooltip").prop("checked", USEROPTS.show_ip_in_tooltip);
 
     formatScriptAccessPrefs();
-
-    $("a[href='#us-general']").trigger("click");
+    // Show the chat tab first, since the general tab is now removed.
+    $("a[href='#us-chat']").click();
     $("#useroptions").modal();
 }
 
 function saveUserOptions() {
-    USEROPTS.theme                = $("#us-theme").val();
+    // Force some defaults.
+    USEROPTS.theme                = '/css/themes/slate.css'; 
     createCookie("cytube-theme", USEROPTS.theme, 1000);
-    USEROPTS.layout               = $("#us-layout").val();
-    USEROPTS.ignore_channelcss    = $("#us-no-channelcss").prop("checked");
-    USEROPTS.ignore_channeljs     = $("#us-no-channeljs").prop("checked");
-    USEROPTS.show_ip_in_tooltip   = $("#us-show-ip-in-tooltip").prop("checked");
-
-    USEROPTS.synch                = $("#us-synch").prop("checked");
-    USEROPTS.sync_accuracy        = parseFloat($("#us-synch-accuracy").val()) || 2;
-    USEROPTS.hidevid              = $("#us-hidevideo").prop("checked");
-    USEROPTS.qbtn_hide            = $("#us-playlistbuttons").prop("checked");
-    USEROPTS.qbtn_idontlikechange = $("#us-oldbtns").prop("checked");
-    USEROPTS.default_quality      = $("#us-default-quality").val();
-    USEROPTS.peertube_risk        = $("#us-peertube").prop("checked");
+    USEROPTS.layout               = 'fluid'; 
+    USEROPTS.ignore_channelcss    = false;
+    USEROPTS.ignore_channeljs     = false;
+    USEROPTS.show_ip_in_tooltip   = true;
+    USEROPTS.synch                = true;
+    USEROPTS.sync_accuracy        = 2;
+    //USEROPTS.hidevid              = 
+    USEROPTS.qbtn_hide            = false;
+    USEROPTS.qbtn_idontlikechange = false;
+    USEROPTS.default_quality      = "auto";
+    USEROPTS.peertube_risk        = false;
 
     USEROPTS.show_timestamps      = $("#us-chat-timestamp").prop("checked");
     USEROPTS.sort_rank            = $("#us-sort-rank").prop("checked");
@@ -1018,6 +1019,7 @@ function handlePermissionChange() {
     setVisible("#playlistmanagerwrap", CLIENT.rank >= 1);
     setVisible("#modflair", CLIENT.rank >= 2);
     setVisible("#guestlogin", CLIENT.rank < 0);
+    setVisible("#btnwrap", CLIENT.rank >= 0);
     setVisible("#chatline", CLIENT.rank >= 0);
     setVisible("#queue", hasPermission("seeplaylist"));
     setVisible("#plmeta", hasPermission("seeplaylist"));
@@ -1486,7 +1488,8 @@ function formatChatMessage(data, last) {
         };
     }
     // Phase 1: Determine whether to show the username or not
-    var skip = data.username === last.name;
+    // var skip = data.username === last.name;
+    var skip = false; // Prefer to show the username every time for chatty Cathies like me.
     if(data.meta.addClass === "server-whisper")
         skip = true;
     // Prevent impersonation by abuse of the bold filter
@@ -1578,12 +1581,14 @@ function addChatMessage(data) {
     var safeUsername = data.username.replace(/[^\w-]/g, '\\$');
     div.addClass("chat-msg-" + safeUsername);
     div.appendTo(msgBuf);
-    div.on('mouseover', function() {
+    div.attr('id', 'chatmessage'); // Give chat messages an ID for better control in css
+    // Do away with this (sorry)
+    /* div.on('mouseover', function() {
         $(".chat-msg-" + safeUsername).addClass("nick-hover");
     });
     div.on('mouseleave', function() {
         $(".nick-hover").removeClass("nick-hover");
-    });
+    }); */
     var oldHeight = msgBuf.prop("scrollHeight");
     var numRemoved = trimChatBuffer();
     if (SCROLLCHAT) {
@@ -1887,9 +1892,13 @@ function handleVideoResize() {
         clearInterval(intv);
 
         var responsiveFrame = $("#ytapiplayer").parent();
-        var height = responsiveFrame.outerHeight() - $("#chatline").outerHeight() - 2;
-        $("#messagebuffer").height(height);
-        $("#userlist").height(height);
+        var height = responsiveFrame.outerHeight() - $("#chatline").outerHeight() - 45; // Changed so the chat window is the same height as the video
+        if ($("#userlist")[0].style.display === "none") {
+            $("#messagebuffer").height(height);
+        } else {
+            $("#userlist").height((height / 2) - 1);
+            $("#messagebuffer").height(height / 2);
+        }
 
         $("#ytapiplayer").attr("height", VHEIGHT = responsiveFrame.outerHeight());
         $("#ytapiplayer").attr("width", VWIDTH = responsiveFrame.outerWidth());
@@ -3140,7 +3149,7 @@ function onEmoteClick(emote) {
     chatline.focus();
 }
 
-window.EMOTELIST = new EmoteList("#emotelist", onEmoteClicked);
+window.EMOTELIST = new EmoteList("#emotelist", onEmoteClicked); 
 window.EMOTELIST.sortAlphabetical = USEROPTS.emotelist_sort;
 
 class CSEmoteList extends EmoteList {

@@ -820,15 +820,19 @@ var toggleUserlist = function () {
     if ($("#userlist")[0].style.display === "none") {
         $("#userlist").show();
         $("#userlisttoggle").removeClass(direction).addClass("glyphicon-chevron-down");
+        handleVideoResize(); // Make sure the chat height remains the same including with window resize
     } else {
         $("#userlist").hide();
         $("#userlisttoggle").removeClass("glyphicon-chevron-down").addClass(direction);
+        handleVideoResize(); // Make sure the chat height remains the same including with window resize
     }
     scrollChat();
 };
 
 $("#usercount").on('click', toggleUserlist);
 $("#userlisttoggle").on('click', toggleUserlist);
+// Hide the userlist by default
+$("#userlisttoggle").click();
 
 $(".add-temp").on('change', function () {
     $(".add-temp").prop("checked", $(this).prop("checked"));
